@@ -21,19 +21,11 @@ a{
 body{
     font-family: "Roboto", sans-serif;
     font-weight: 400;
-
-    /* za maknut */
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
 }
 
 main{
     background-color: var(--clr-light-grey);
     padding-block: 1.5rem;
-
-    /* za maknut */
-    flex: 1;
 }
 
 header{
@@ -47,9 +39,32 @@ header{
         justify-content: center;
         padding: 1em 0;
     }
+
+    /* raspodjela logoa i menija za manje uredaje */
+    @media (max-width: 768px) {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 1rem;
+
+        & > a {
+            padding: 0.5rem 0;
+        }
+    }
 }
 
 nav{
+    .nav-toggle {
+        display: none;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0.5rem 1rem;
+        color: var(--clr-dark-grey);
+        font-size: 1.8rem;
+        line-height: 1;
+    }
+
     ul{
         display: flex;
         justify-content: center;
@@ -75,6 +90,42 @@ nav{
             text-decoration-color: var(--clr-dark-grey);
             text-decoration-thickness: 4px;
             text-underline-offset: 8px;
+        }
+    }
+
+    /* prikaz menija za male uredaje */
+    @media (max-width: 768px) {
+        position: relative;
+
+        .nav-toggle { display: block; }
+
+        ul {
+            flex-direction: column;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            width: fit-content;
+            gap: 0;
+            margin: 0;
+            background: var(--clr-pure-white);
+            z-index: 100;
+            box-shadow: 0 4px 12px hsla(0, 0%, 0%, 0.1);
+
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(-10px);
+            transition: opacity 0.25s ease-in-out, transform 0.25s ease-in-out;
+
+            &.open { 
+                opacity: 1;
+                pointer-events: auto;
+                transform: translateY(0);
+            }
+        }
+
+        a {
+            border-bottom: 1px solid var(--clr-light-grey);
+            text-align: center;
         }
     }
 }
