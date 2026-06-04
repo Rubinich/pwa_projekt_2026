@@ -16,8 +16,12 @@
     <?php include "header.php"; ?>
     <!-- GLAVNI DIO -->
     <main>
-        <section></section>
-        <section></section>
+        <section>
+
+        </section>
+        <section>
+            
+        </section>
     </main>
     <!-- FOOTER -->
     <?php include "footer.php"; ?>
