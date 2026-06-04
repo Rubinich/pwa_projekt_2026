@@ -1,15 +1,21 @@
 :root{
     --clr-red: hsl(354, 89%, 46%);
     --clr-orange: hsl(27, 100%, 50%);
-    --clr-darker-grey: hsl(0, 0%, 38%);
-    --clr-lighter-grey: hsl(0, 0%, 41%);
+    --clr-dark-grey: hsl(0, 0%, 38%);
     --clr-light-grey: hsl(0, 0%, 90%);
+    --clr-pure-white: hsl(0, 0%, 100%);
+    --clr-muddy-white: hsl(0, 0%, 95%);
+    --clr-pure-black: hsl(0, 0%, 0%);
 }
 
 *, *::before, *::after{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+a{
+    text-decoration: none;
 }
 
 body{
@@ -23,6 +29,9 @@ body{
 }
 
 main{
+    background-color: var(--clr-light-grey);
+    padding-block: 1.5rem;
+
     /* za maknut */
     flex: 1;
 }
@@ -45,40 +54,141 @@ nav{
         display: flex;
         justify-content: center;
         gap: 1rem;
+        margin-block-end: 1rem;
         list-style: none;
     }
 
     li{
-        &:last-child{
-            border-right: none;
-        }
+        &:last-child{ border-right: none; }
     }
 
     a{
         display: block;
         font-weight: 500;
         font-size: 1rem;
-        text-decoration: none;
         text-transform: uppercase;
-        color: var(--clr-darker-grey);
+        color: var(--clr-dark-grey);
         padding: 1rem 1.5rem;
-        transition: all 0.2s ease-in-out;
 
         &:hover, &.active{
             text-decoration: underline;
-            text-decoration-color: var(--clr-darker-grey);
+            text-decoration-color: var(--clr-dark-grey);
             text-decoration-thickness: 4px;
-            text-underline-offset: 10px;
+            text-underline-offset: 8px;
         }
     }
 }
 
 .logo-img{
+    --min-width-logo: 60px;
+    --max-width-logo: 110px;
+
     display: block;
-    width: 100px;
+    width: clamp(var(--min-width-logo), 10vw, var(--max-width-logo));
     height: auto;
 }
 
 footer{
-    outline: 2px solid pink;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    background-color: var(--clr-dark-grey); 
+    padding: 1.5rem 2rem;
+    color: var(--clr-pure-white);
+    text-align: center;
+
+    a {
+        color: var(--clr-pure-white);
+
+        &:hover {
+            text-decoration: underline;
+            text-underline-offset: 5px;
+        }
+    }
+    
+    p {
+        font-size: 0.8rem;
+        letter-spacing: 0.5px;
+    }
+}
+
+.news-section {
+    max-width: 1200px;
+    background-color: var(--clr-pure-white);
+    margin: 0  auto 2rem auto;
+
+    &.orange-details{ --section-accent: var(--clr-orange); }
+    &.red-details{ --section-accent: var(--clr-red); }
+    
+    .section-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        text-align: center;
+        padding-block: 1rem;
+        color: var(--clr-pure-white);
+        background-color: var(--section-accent);
+
+        .arrow { font-weight: 400; }
+        a{ color: var(--clr-pure-white); }
+    }
+
+    .news-auto-fill {
+        --grid-min-col-size: 340px;
+
+        display: grid;
+        grid-template-columns: repeat(
+            auto-fit, 
+            minmax(min(var(--grid-min-col-size), 100%), 1fr)
+        );
+        gap: 1.5rem;
+        padding: 1.5rem;
+    }
+}
+
+    .news-card {
+        display: flex;
+        flex-direction: column;
+        cursor: pointer;
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+        &:hover {
+            transform: translateY(-5px);
+
+            .card-image img{ transform: scale(1.1); }
+        }
+
+        .card-image {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            overflow: hidden;
+
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                transition: transform 0.25s ease;
+            }
+        }
+
+        .card-content {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+            padding: 0.5rem;
+
+            .card-category {
+                color: var(--section-accent);
+                font-size: 0.8rem;
+                font-weight: 700;
+            }
+            
+            .card-heading {
+                color: var(--clr-pure-black);
+                font-size: 1.05rem;
+                font-weight: 700;
+                line-height: 1.3;
+            }
+        }
 }
