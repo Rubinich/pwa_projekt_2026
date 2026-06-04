@@ -1,3 +1,26 @@
+<?php
+$host = "localhost";
+$user = "root";
+$pass = "";
+$dbname = "portal";
+
+try {
+    $conn = new PDO("mysql:host=$host;dbname=$dbname;charset=cp1250", $user, $pass);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Greška pri spajanju na bazu podataka: " . $e->getMessage());
+}
+
+function dohvatiVijesti(PDO $conn, string $kategorija) {
+    $stmt = $conn->prepare("SELECT * FROM vijesti WHERE kategorija = :kategorija AND arhiva = 0 ORDER BY datum DESC");
+    $stmt->execute([":kategorija" => $kategorija]);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+$vijesti_sport = dohvatiVijesti($conn, "Sport");
+$vijesti_kultura = dohvatiVijesti($conn, "Kultura");
+?>
+
 <!DOCTYPE html>
 <html lang="hr">
 <head>
@@ -14,6 +37,7 @@
 <body>
     <!-- HEADER -->
     <?php include "header.php"; ?>
+
     <!-- GLAVNI DIO -->
     <main>
         <section class="news-section orange-details">
@@ -22,35 +46,17 @@
             </h2>
 
             <div class="news-auto-fill">
-                <article class="news-card">
-                    <div class="card-image">
-                        <img src="images/slika1.jpg" alt="Vijest 1">
-                    </div>
-                    <div class="card-content">
-                        <span class="card-category">Abschied aus Berlin</span>
-                        <h3 class="card-heading">Klinsmann Junior (22) verlässt Hertha – aber wohin gehter</h3>
-                    </div>
-                </article>
-
-                <article class="news-card">
-                    <div class="card-image">
-                        <img src="images/slika2.jpg" alt="Vijest 2">
-                    </div>
-                    <div class="card-content">
-                        <span class="card-category">Vorm Saisonfinale</span>
-                        <h3 class="card-heading">Paderborn-Coach Baumgart verrät Startelf für Dresden-Spiel</h3>
-                    </div>
-                </article>
-
-                <article class="news-card">
-                    <div class="card-image">
-                        <img src="images/slika3.jpg" alt="Vijest 3">
-                    </div>
-                    <div class="card-content">
-                        <span class="card-category">Vor Playoffs gegen Ulm</span>
-                        <h3 class="card-heading">Alba-Coach: Deutsche dürfen Platz nicht wegen Passes bekommen</h3>
-                    </div>
-                </article>
+                <?php foreach ($vijesti_sport as $vijest): ?>
+                    <article class="news-card">
+                        <div class="card-image">
+                            <img src="images/<?= htmlspecialchars($vijest['slika']) ?>" alt="<?= htmlspecialchars($vijest['naslov']) ?>">
+                        </div>
+                        <div class="card-content">
+                            <span class="card-category"><?= htmlspecialchars($vijest['sazetak']) ?></span>
+                            <h3 class="card-heading"><?= htmlspecialchars($vijest['naslov']) ?></h3>
+                        </div>
+                    </article>
+                <?php endforeach; ?>
             </div>
         </section>
 
@@ -60,38 +66,21 @@
             </h2>
 
             <div class="news-auto-fill">
-                <article class="news-card">
-                    <div class="card-image">
-                        <img src="images/slika1.jpg" alt="Vijest 1">
-                    </div>
-                    <div class="card-content">
-                        <span class="card-category">Abschied aus Berlin</span>
-                        <h3 class="card-heading">Klinsmann Junior (22) verlässt Hertha – aber wohin gehter</h3>
-                    </div>
-                </article>
-
-                <article class="news-card">
-                    <div class="card-image">
-                        <img src="images/slika2.jpg" alt="Vijest 2">
-                    </div>
-                    <div class="card-content">
-                        <span class="card-category">Vorm Saisonfinale</span>
-                        <h3 class="card-heading">Paderborn-Coach Baumgart verrät Startelf für Dresden-Spiel</h3>
-                    </div>
-                </article>
-
-                <article class="news-card">
-                    <div class="card-image">
-                        <img src="images/slika3.jpg" alt="Vijest 3">
-                    </div>
-                    <div class="card-content">
-                        <span class="card-category">Vor Playoffs gegen Ulm</span>
-                        <h3 class="card-heading">Alba-Coach: Deutsche dürfen Platz nicht wegen Passes bekommen</h3>
-                    </div>
-                </article>
+                <?php foreach ($vijesti_kultura as $vijest): ?>
+                    <article class="news-card">
+                        <div class="card-image">
+                            <img src="images/<?= htmlspecialchars($vijest['slika']) ?>" alt="<?= htmlspecialchars($vijest['naslov']) ?>">
+                        </div>
+                        <div class="card-content">
+                            <span class="card-category"><?= htmlspecialchars($vijest['sazetak']) ?></span>
+                            <h3 class="card-heading"><?= htmlspecialchars($vijest['naslov']) ?></h3>
+                        </div>
+                    </article>
+                <?php endforeach; ?>
             </div>
         </section>
     </main>
+
     <!-- FOOTER -->
     <?php include "footer.php"; ?>
 </body>

@@ -1,0 +1,4 @@
+images/*
+!images/default.svg
+!images/logo.svg
+todo.md

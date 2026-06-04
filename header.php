@@ -1,5 +1,5 @@
 <?php
-$active_page = basename($_SERVER['PHP_SELF']);
+$active_page = basename($_SERVER['SCRIPT_NAME']);
 ?>
 
 <header>
@@ -12,9 +12,8 @@ $active_page = basename($_SERVER['PHP_SELF']);
             <li><a href="index.php" class="<?= ($active_page == 'index.php') ? 'active' : ''; ?>">Početak</a></li>
             <li><a href="sport.php" class="<?= ($active_page == 'sport.php') ? 'active' : ''; ?>">Sport</a></li>
             <li><a href="kultura.php" class="<?= ($active_page == 'kultura.php') ? 'active' : ''; ?>">Kultura</a></li>
-            <li><a href="registracija.php" class="<?= ($active_page == 'registracija.php') ? 'active' : ''; ?>">Registracija</a></li>
+            <li><a href="unos.php" class="<?= ($active_page == 'unos.php') ? 'active' : ''; ?>">Unos</a></li>
             <li><a href="administracija.php" class="<?= ($active_page == 'administracija.php') ? 'active' : ''; ?>">Administracija</a></li>
         </ul>
     </nav>
 </header>
-<script src="script.js" defer></script>
