@@ -1,5 +1,5 @@
 <?php 
-require_once 'connection.php';
+require_once 'database_config/connect.php';
 
 // izvlacenje podataka iz forme
 $title = isset($_POST['title']) ? $_POST['title'] : '';
@@ -9,6 +9,7 @@ $category = isset($_POST['category']) ? $_POST['category'] : '';
 $date = date('Y-m-d H:i:s');
 $archive = isset($_POST['archive']) ? 1 : 0;
 
+// unique naziv slike
 $picture = 'default.svg';
 if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
     $fileTmpPath = $_FILES['photo']['tmp_name'];
@@ -21,13 +22,14 @@ if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
 
     $extension = pathinfo($fileName, PATHINFO_EXTENSION);
     $picture = uniqid('img_', true) . '.' . $extension;
-    $targetFilePath = 'images/' . $picture;
+    $targetFilePath = IMAGES . $picture;
 
     if (!move_uploaded_file($fileTmpPath, $targetFilePath)) {
         die('Greška pri uploadu slike.');
     }
 }
 
+// spremanje podataka na bazu
 if (!empty($title) && !empty($content) && !empty($category)) {
     try {
         $query = 'INSERT INTO vijesti (datum, naslov, sazetak, tekst, slika, kategorija, arhiva) 

@@ -1,23 +1,25 @@
+<?php
+require_once 'paths.php';
+?>
 <!DOCTYPE html>
 <html lang="hr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="images/logo.svg" type="image/svg+xml">
     <title>B.Z. Portal Vijesti</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="<?= IMAGES ?>logo.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="<?= ASSETS ?>style.css">
 
-    <!-- <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet"> -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <!-- HEADER -->
     <?php include 'header.php'; ?>
     
     <!-- GLAVNI DIO -->
-    <main>
-    <div class="form-container">
+    <main class="form-container">
         <h1>Unos nove vijesti</h1>
         
         <form action="skripta.php" method="POST" enctype="multipart/form-data">
@@ -60,7 +62,6 @@
                 <button type="submit" class="btn-submit">Prihvati</button>
             </div>
         </form>
-    </div>
 </main>
 
     <!-- FOOTER -->

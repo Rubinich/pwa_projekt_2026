@@ -4,7 +4,7 @@ $active_page = basename($_SERVER['SCRIPT_NAME']);
 
 <header>
     <a href="index.php">
-        <img src="images/logo.svg" alt="B.Z. Portal Logo" class="logo-img">
+        <img src="<?= IMAGES ?>logo.svg" alt="B.Z. Portal Logo" class="logo-img">
     </a>
     <nav>
         <button class="nav-toggle" aria-label="Otvori meni">&#9776;</button>

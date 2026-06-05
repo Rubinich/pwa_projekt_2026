@@ -1,14 +1,16 @@
 <?php
-require_once 'connection.php';
+require_once 'paths.php';
+require_once 'database_config/connect.php';
 
-function fetchNews(PDO $conn, string $category) {
-    $stmt = $conn->prepare("SELECT * FROM vijesti WHERE kategorija = :kategorija AND arhiva = 0 ORDER BY datum DESC");
-    $stmt->execute([":kategorija" => $category]);
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+function fetchAllArticles(PDO $conn, string $category) {
+    $query = 'SELECT id, naslov, sazetak, slika FROM vijesti WHERE kategorija = :kategorija AND arhiva = 0 ORDER BY datum DESC';
+    $prep_state = $conn->prepare($query);
+    $prep_state->execute([":kategorija" => $category]);
+    return $prep_state->fetchAll(PDO::FETCH_ASSOC);
 }
 
-$sport_news = fetchNews($conn, "Sport");
-$culture_news = fetchNews($conn, "Kultura");
+$sport_news = fetchAllArticles($conn, "Sport");
+$culture_news = fetchAllArticles($conn, "Kultura");
 ?>
 
 <!DOCTYPE html>
@@ -16,13 +18,13 @@ $culture_news = fetchNews($conn, "Kultura");
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="images/logo.svg" type="image/svg+xml">
     <title>B.Z. Portal Vijesti</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="<?= IMAGES ?>logo.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="<?= ASSETS ?>style.css">
 
-    <!-- <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet"> -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <!-- HEADER -->
@@ -37,15 +39,17 @@ $culture_news = fetchNews($conn, "Kultura");
 
             <div class="news-auto-fill">
                 <?php foreach ($sport_news as $article): ?>
-                    <article class="news-card">
-                        <div class="card-image">
-                            <img src="images/<?= htmlspecialchars($article['slika']) ?>" alt="<?= htmlspecialchars($article['naslov']) ?>">
-                        </div>
-                        <div class="card-content">
-                            <span class="card-category"><?= htmlspecialchars($article['sazetak']) ?></span>
-                            <h3 class="card-heading"><?= htmlspecialchars($article['naslov']) ?></h3>
-                        </div>
-                    </article>
+                    <a href="clanak.php?id=<?= $article['id'] ?>">
+                        <article class="news-card">
+                            <div class="card-image">
+                                <img src="<?= IMAGES . htmlspecialchars($article['slika']) ?>" alt="<?= htmlspecialchars($article['naslov']) ?>">
+                            </div>
+                            <div class="card-content">
+                                <span class="card-category"><?= htmlspecialchars($article['sazetak']) ?></span>
+                                <h3 class="card-heading"><?= htmlspecialchars($article['naslov']) ?></h3>
+                            </div>
+                        </article>
+                    </a>
                 <?php endforeach; ?>
             </div>
         </section>
@@ -57,15 +61,18 @@ $culture_news = fetchNews($conn, "Kultura");
 
             <div class="news-auto-fill">
                 <?php foreach ($culture_news as $article): ?>
-                    <article class="news-card">
-                        <div class="card-image">
-                            <img src="images/<?= htmlspecialchars($article['slika']) ?>" alt="<?= htmlspecialchars($article['naslov']) ?>" loading="lazy">
-                        </div>
-                        <div class="card-content">
-                            <span class="card-category"><?= htmlspecialchars($article['sazetak']) ?></span>
-                            <h3 class="card-heading"><?= htmlspecialchars($article['naslov']) ?></h3>
-                        </div>
-                    </article>
+                    <a href="clanak.php?id=<?= $article['id'] ?>">
+                        <article class="news-card">
+                            <div class="card-image">
+                                <img src="<?= IMAGES . htmlspecialchars($article['slika']) ?>" alt="<?= htmlspecialchars($article['naslov']) ?>" loading="lazy">
+                            </div>
+                            <div class="card-content">
+                                <span class="card-category"><?= htmlspecialchars($article['sazetak']) ?></span>
+                                <h3 class="card-heading"><?= htmlspecialchars($article['naslov']) ?></h3>
+                            </div>
+                        </article>
+                    </a>
+                    
                 <?php endforeach; ?>
             </div>
         </section>

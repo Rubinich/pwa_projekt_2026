@@ -168,13 +168,15 @@ footer{
     }
 }
 
+.orange-details{ --section-accent: var(--clr-orange); }
+.red-details{ --section-accent: var(--clr-red); }
+
 .news-section {
     max-width: 1200px;
     background-color: var(--clr-pure-white);
     margin: 0 auto 2rem auto;
 
-    &.orange-details{ --section-accent: var(--clr-orange); }
-    &.red-details{ --section-accent: var(--clr-red); }
+    
     
     .section-title {
         font-size: 1.5rem;
@@ -255,4 +257,9 @@ footer{
     background-color: var(--clr-pure-white);
     margin: 0 auto 2rem auto;
     outline: 2px solid red;
+}
+
+/* srediti nadalje */
+.article-category-badge{
+    background-color: var(--section-accent);
 }

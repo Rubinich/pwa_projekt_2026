@@ -1,5 +1,5 @@
-images/*
-!images/default.svg
-!images/logo.svg
-todo.md
-server.env 
+assets/images/*
+!assets/images/default.svg
+!assets/images/logo.svg
+
+database_config/server.env 

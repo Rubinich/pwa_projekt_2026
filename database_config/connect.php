@@ -1,6 +1,8 @@
 <?php
+require_once 'paths.php';
+
 // \n + empty_lines
-foreach (file('server.env', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) as $line) {
+foreach (file('database_config/server.env', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) as $line) {
     [$key, $value] = explode('=', $line, 2);
     // whitespace
     $_ENV[trim($key)] = trim($value);
@@ -15,4 +17,5 @@ try{
 }catch (PDOException $e) {
     die('Greška prilikom spajanja na bazu: ' . $e->getMessage());
 }
+
 ?>
