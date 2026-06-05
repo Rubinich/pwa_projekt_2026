@@ -1,24 +1,14 @@
 <?php
-$host = "localhost";
-$user = "root";
-$pass = "";
-$dbname = "portal";
+require_once 'connection.php';
 
-try {
-    $conn = new PDO("mysql:host=$host;dbname=$dbname;charset=cp1250", $user, $pass);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die("Greška pri spajanju na bazu podataka: " . $e->getMessage());
-}
-
-function dohvatiVijesti(PDO $conn, string $kategorija) {
+function fetchNews(PDO $conn, string $category) {
     $stmt = $conn->prepare("SELECT * FROM vijesti WHERE kategorija = :kategorija AND arhiva = 0 ORDER BY datum DESC");
-    $stmt->execute([":kategorija" => $kategorija]);
+    $stmt->execute([":kategorija" => $category]);
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-$vijesti_sport = dohvatiVijesti($conn, "Sport");
-$vijesti_kultura = dohvatiVijesti($conn, "Kultura");
+$sport_news = fetchNews($conn, "Sport");
+$culture_news = fetchNews($conn, "Kultura");
 ?>
 
 <!DOCTYPE html>
@@ -30,13 +20,13 @@ $vijesti_kultura = dohvatiVijesti($conn, "Kultura");
     <title>B.Z. Portal Vijesti</title>
     <link rel="stylesheet" href="style.css">
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <!-- <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet"> -->
 </head>
 <body>
     <!-- HEADER -->
-    <?php include "header.php"; ?>
+    <?php include 'header.php'; ?>
 
     <!-- GLAVNI DIO -->
     <main>
@@ -46,14 +36,14 @@ $vijesti_kultura = dohvatiVijesti($conn, "Kultura");
             </h2>
 
             <div class="news-auto-fill">
-                <?php foreach ($vijesti_sport as $vijest): ?>
+                <?php foreach ($sport_news as $article): ?>
                     <article class="news-card">
                         <div class="card-image">
-                            <img src="images/<?= htmlspecialchars($vijest['slika']) ?>" alt="<?= htmlspecialchars($vijest['naslov']) ?>">
+                            <img src="images/<?= htmlspecialchars($article['slika']) ?>" alt="<?= htmlspecialchars($article['naslov']) ?>">
                         </div>
                         <div class="card-content">
-                            <span class="card-category"><?= htmlspecialchars($vijest['sazetak']) ?></span>
-                            <h3 class="card-heading"><?= htmlspecialchars($vijest['naslov']) ?></h3>
+                            <span class="card-category"><?= htmlspecialchars($article['sazetak']) ?></span>
+                            <h3 class="card-heading"><?= htmlspecialchars($article['naslov']) ?></h3>
                         </div>
                     </article>
                 <?php endforeach; ?>
@@ -66,14 +56,14 @@ $vijesti_kultura = dohvatiVijesti($conn, "Kultura");
             </h2>
 
             <div class="news-auto-fill">
-                <?php foreach ($vijesti_kultura as $vijest): ?>
+                <?php foreach ($culture_news as $article): ?>
                     <article class="news-card">
                         <div class="card-image">
-                            <img src="images/<?= htmlspecialchars($vijest['slika']) ?>" alt="<?= htmlspecialchars($vijest['naslov']) ?>">
+                            <img src="images/<?= htmlspecialchars($article['slika']) ?>" alt="<?= htmlspecialchars($article['naslov']) ?>" loading="lazy">
                         </div>
                         <div class="card-content">
-                            <span class="card-category"><?= htmlspecialchars($vijest['sazetak']) ?></span>
-                            <h3 class="card-heading"><?= htmlspecialchars($vijest['naslov']) ?></h3>
+                            <span class="card-category"><?= htmlspecialchars($article['sazetak']) ?></span>
+                            <h3 class="card-heading"><?= htmlspecialchars($article['naslov']) ?></h3>
                         </div>
                     </article>
                 <?php endforeach; ?>
@@ -82,6 +72,6 @@ $vijesti_kultura = dohvatiVijesti($conn, "Kultura");
     </main>
 
     <!-- FOOTER -->
-    <?php include "footer.php"; ?>
+    <?php include 'footer.php'; ?>
 </body>
 </html>

@@ -19,7 +19,8 @@ a{
 }
 
 body{
-    font-family: "Roboto", sans-serif;
+    /* font-family: "Roboto", sans-serif; */
+    font-family: system-ui;
     font-weight: 400;
     display: flex;
     flex-direction: column;
@@ -193,7 +194,7 @@ footer{
 
         display: grid;
         grid-template-columns: repeat(
-            auto-fit, 
+            auto-fill, 
             minmax(min(var(--grid-min-col-size), 100%), 1fr)
         );
         gap: 1.5rem;

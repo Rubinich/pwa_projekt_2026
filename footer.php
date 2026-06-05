@@ -6,7 +6,7 @@
         &bull;
         2026
     </p>
-    <p>&copy; <?= date("Y") ?> Sva prava pridržana.</p>
+    <p>&copy; <?= date('Y') ?> Sva prava pridržana.</p>
 </footer>
 <!-- za hamburger meni -->
-<script src="script.js" defer></script>
+<script src='script.js' defer></script>
