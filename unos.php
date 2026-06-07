@@ -19,50 +19,52 @@ require_once 'paths.php';
     <?php include 'header.php'; ?>
     
     <!-- GLAVNI DIO -->
-    <main class="form-container">
-        <h1>Unos nove vijesti</h1>
+    <main>
+        <div class="form-container">
+            <h1>Unos nove vijesti</h1>
         
-        <form action="skripta.php" method="POST" enctype="multipart/form-data">
-            <div class="form-field">
-                <label for="title">Naslov vijesti</label><br>
-                <input type="text" id="title" name="title" required placeholder="Unesite naslov vijesti" maxlength="128">
-            </div>
-            
-            <div class="form-field">
-                <label for="about">Kratki sadržaj vijesti</label><br>
-                <textarea id="about" name="about" rows="4" required placeholder="Kratki opis..."></textarea>
-            </div>
-            
-            <div class="form-field">
-                <label for="content">Sadržaj vijesti</label><br>
-                <textarea id="content" name="content" rows="8" required placeholder="Glavni tekst vijesti..."></textarea>
-            </div>
-            
-            <div class="form-field">
-                <label for="category">Kategorija vijesti</label><br>
-                <select id="category" name="category" required>
-                    <option value="" disabled selected>Odaberite kategoriju</option>
-                    <option value="Sport">Sport</option>
-                    <option value="Kultura">Kultura</option>
-                </select>
-            </div>
-            
-            <div class="form-field">
-                <label for="photo">Slika vijesti</label><br>
-                <input type="file" id="photo" name="photo" accept="image/*" required>
-            </div>
-            
-            <div class="form-field checkbox-field">
-                <label for="archive">Spremi u arhivu:</label>
-                <input type="checkbox" id="archive" name="archive">
-            </div>
-            
-            <div class="form-buttons">
-                <button type="reset" class="btn-reset">Poništi</button>
-                <button type="submit" class="btn-submit">Prihvati</button>
-            </div>
-        </form>
-</main>
+            <form action="skripta.php" method="POST" enctype="multipart/form-data">
+                <div class="form-field">
+                    <label for="title">Naslov vijesti</label>
+                    <input type="text" id="title" name="title" required placeholder="Unesite naslov vijesti" maxlength="128">
+                </div>
+                
+                <div class="form-field">
+                    <label for="about">Kratki sadržaj vijesti</label>
+                    <textarea id="about" name="about" rows="4" required placeholder="Kratki opis..."></textarea>
+                </div>
+                
+                <div class="form-field">
+                    <label for="content">Sadržaj vijesti</label>
+                    <textarea id="content" name="content" rows="8" required placeholder="Glavni tekst vijesti..."></textarea>
+                </div>
+                
+                <div class="form-field">
+                    <label for="category">Kategorija vijesti</label>
+                    <select id="category" name="category" required>
+                        <option value="" disabled selected>Odaberite kategoriju</option>
+                        <option value="Sport">Sport</option>
+                        <option value="Kultura">Kultura</option>
+                    </select>
+                </div>
+                
+                <div class="form-field">
+                    <label for="photo">Slika vijesti</label>
+                    <input type="file" id="photo" name="photo" accept="image/*" required>
+                </div>
+                
+                <div class="form-field checkbox-field">
+                    <label for="archive">Spremi u arhivu:</label>
+                    <input type="checkbox" id="archive" name="archive">
+                </div>
+                
+                <div class="form-buttons">
+                    <button type="reset">Poništi</button>
+                    <button type="submit">Prihvati</button>
+                </div>
+            </form>
+        </div>
+    </main>
 
     <!-- FOOTER -->
     <?php include 'footer.php'; ?>

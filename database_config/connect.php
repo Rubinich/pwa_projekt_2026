@@ -10,7 +10,7 @@ foreach (file('database_config/server.env', FILE_IGNORE_NEW_LINES | FILE_SKIP_EM
 
 try{
     $conn = new PDO(
-        "mysql:host={$_ENV['DB_HOST']};dbname={$_ENV['DB_NAME']};charset=cp1250", 
+        "mysql:host={$_ENV['DB_HOST']};dbname={$_ENV['DB_NAME']};charset=utf8", 
         $_ENV['DB_USER'], 
         $_ENV['DB_PASS'],
         [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
