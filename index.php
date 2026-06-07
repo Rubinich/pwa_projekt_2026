@@ -34,7 +34,7 @@ $culture_news = fetchAllArticles($conn, "Kultura");
     <main>
         <section class="news-section orange-details">
             <h2 class="section-title">
-                <a href="#">Sport <span class="arrow">&gt;</span></a>
+                <a href="kategorija.php?kategorija=Sport">Sport <span class="arrow">&gt;</span></a>
             </h2>
 
             <div class="news-auto-fill">
@@ -56,7 +56,7 @@ $culture_news = fetchAllArticles($conn, "Kultura");
 
         <section class="news-section red-details">
             <h2 class="section-title">
-                <a href="">Kultura <span class="arrow">&gt;</span></a>
+                <a href="kategorija.php?kategorija=Kultura">Kultura <span class="arrow">&gt;</span></a>
             </h2>
 
             <div class="news-auto-fill">
