@@ -2,15 +2,15 @@
 require_once 'paths.php';
 require_once 'database_config/connect.php';
 
-function fetchAllArticles(PDO $conn, string $category) {
-    $query = 'SELECT id, naslov, sazetak, slika FROM vijesti WHERE kategorija = :kategorija AND arhiva = 0 ORDER BY datum DESC';
+function fetchTop3Articles(PDO $conn, string $category) {
+    $query = 'SELECT id, naslov, sazetak, slika FROM vijesti WHERE kategorija = :kategorija AND arhiva = 0 ORDER BY datum DESC LIMIT 3';
     $prep_state = $conn->prepare($query);
     $prep_state->execute([":kategorija" => $category]);
     return $prep_state->fetchAll(PDO::FETCH_ASSOC);
 }
 
-$sport_news = fetchAllArticles($conn, "Sport");
-$culture_news = fetchAllArticles($conn, "Kultura");
+$sport_news = fetchTop3Articles($conn, "Sport");
+$culture_news = fetchTop3Articles($conn, "Kultura");
 ?>
 
 <!DOCTYPE html>
@@ -38,15 +38,15 @@ $culture_news = fetchAllArticles($conn, "Kultura");
             </h2>
 
             <div class="news-auto-fill">
-                <?php foreach ($sport_news as $article): ?>
-                    <a href="clanak.php?id=<?= $article['id'] ?>">
+                <?php foreach ($sport_news as $row): ?>
+                    <a href="clanak.php?id=<?= $row['id'] ?>">
                         <article class="news-card">
                             <div class="card-image">
-                                <img src="<?= IMAGES . htmlspecialchars($article['slika']) ?>" alt="<?= htmlspecialchars($article['naslov']) ?>">
+                                <img src="<?= IMAGES . htmlspecialchars($row['slika']) ?>" alt="<?= htmlspecialchars($row['naslov']) ?>">
                             </div>
                             <div class="card-content">
-                                <span class="card-category"><?= htmlspecialchars($article['sazetak']) ?></span>
-                                <h3 class="card-heading"><?= htmlspecialchars($article['naslov']) ?></h3>
+                                <span class="card-category"><?= htmlspecialchars($row['sazetak']) ?></span>
+                                <h3 class="card-heading"><?= htmlspecialchars($row['naslov']) ?></h3>
                             </div>
                         </article>
                     </a>
@@ -60,15 +60,15 @@ $culture_news = fetchAllArticles($conn, "Kultura");
             </h2>
 
             <div class="news-auto-fill">
-                <?php foreach ($culture_news as $article): ?>
-                    <a href="clanak.php?id=<?= $article['id'] ?>">
+                <?php foreach ($culture_news as $row): ?>
+                    <a href="clanak.php?id=<?= $row['id'] ?>">
                         <article class="news-card">
                             <div class="card-image">
-                                <img src="<?= IMAGES . htmlspecialchars($article['slika']) ?>" alt="<?= htmlspecialchars($article['naslov']) ?>" loading="lazy">
+                                <img src="<?= IMAGES . htmlspecialchars($row['slika']) ?>" alt="<?= htmlspecialchars($row['naslov']) ?>" loading="lazy">
                             </div>
                             <div class="card-content">
-                                <span class="card-category"><?= htmlspecialchars($article['sazetak']) ?></span>
-                                <h3 class="card-heading"><?= htmlspecialchars($article['naslov']) ?></h3>
+                                <span class="card-category"><?= htmlspecialchars($row['sazetak']) ?></span>
+                                <h3 class="card-heading"><?= htmlspecialchars($row['naslov']) ?></h3>
                             </div>
                         </article>
                     </a>
