@@ -1,25 +1,22 @@
 <?php 
-
 require_once 'paths.php';
 require_once 'database_config/connect.php';
 
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
-if($id === 0) {
-    header('Location: index.php');
-    exit;
-}
 
-$query = 'SELECT datum, naslov, sazetak, tekst, slika, kategorija FROM vijesti WHERE id = :id';
-$pred_state = $conn->prepare($query);
-$pred_state->execute([':id' => $id]);
-$article= $pred_state->fetch(PDO::FETCH_ASSOC);
+$query = 'SELECT v.*, k.naziv as kategorija_naziv
+    FROM vijesti v
+    JOIN kategorije k on v.idKategorije = k.id
+    WHERE v.id = :id';
+$stmt = $conn->prepare($query);
+$stmt->execute([':id' => $id]);
+$article = $stmt->fetch(PDO::FETCH_ASSOC);
 
-if(!$article) {
-    header('Location: index.php');
-    exit;
-}
-
-$section_accent = $article['kategorija'] === 'Sport' ? 'orange-details' : 'red-details';
+$category_colors = [
+    'Sport'   => 'orange-details',
+    'Kultura' => 'red-details',
+];
+$color_class = $category_colors[$article['kategorija_naziv']] ?? 'default-details';
 
 ?>
 
@@ -43,8 +40,8 @@ $section_accent = $article['kategorija'] === 'Sport' ? 'orange-details' : 'red-d
     <!-- GLAVNI DIO -->
     <main>
         <article class="article">
-            <p class="article-category-badge <?= $section_accent ?>">
-                <?= htmlspecialchars($article['kategorija']) ?>
+            <p class="article-category-badge <?= $color_class ?>">
+                <?= htmlspecialchars($article['kategorija_naziv']) ?>
             </p>
 
             <h1 class="article-title">

@@ -5,7 +5,7 @@ require_once 'database_config/connect.php';
 $title = isset($_POST['title']) ? $_POST['title'] : '';
 $about = isset($_POST['about']) ? $_POST['about'] : '';
 $content = isset($_POST['content']) ? $_POST['content'] : '';
-$category = isset($_POST['category']) ? $_POST['category'] : '';
+$category_id = isset($_POST['category']) ? $_POST['category'] : '';
 $date = date('Y-m-d H:i:s');
 $archive = isset($_POST['archive']) ? 1 : 0;
 
@@ -30,10 +30,10 @@ if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
 }
 
 // spremanje podataka na bazu
-if (!empty($title) && !empty($content) && !empty($category)) {
+if (!empty($title) && !empty($content) && !empty($category_id)) {
     try {
-        $query = 'INSERT INTO vijesti (datum, naslov, sazetak, tekst, slika, kategorija, arhiva) 
-                VALUES (:datum, :naslov, :sazetak, :tekst, :slika, :kategorija, :arhiva)';
+        $query = 'INSERT INTO vijesti (datum, naslov, sazetak, tekst, slika, idKategorije, arhiva) 
+                VALUES (:datum, :naslov, :sazetak, :tekst, :slika, :idKategorije, :arhiva)';
         
         $prep_state = $conn->prepare($query);
         $prep_state->execute([
@@ -42,7 +42,7 @@ if (!empty($title) && !empty($content) && !empty($category)) {
             ':sazetak' => $about,
             ':tekst' => $content,
             ':slika' => $picture,
-            ':kategorija' => $category,
+            ':idKategorije' => $category_id,
             ':arhiva' => $archive
         ]);
 

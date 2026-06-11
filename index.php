@@ -2,15 +2,16 @@
 require_once 'paths.php';
 require_once 'database_config/connect.php';
 
-function fetchTop3Articles(PDO $conn, string $category) {
-    $query = 'SELECT id, naslov, sazetak, slika FROM vijesti WHERE kategorija = :kategorija AND arhiva = 0 ORDER BY datum DESC LIMIT 3';
-    $prep_state = $conn->prepare($query);
-    $prep_state->execute([":kategorija" => $category]);
-    return $prep_state->fetchAll(PDO::FETCH_ASSOC);
-}
+$category_colors = [
+    'Sport' => 'orange-details',
+    'Kultura' => 'red-details'
+];
 
-$sport_news = fetchTop3Articles($conn, "Sport");
-$culture_news = fetchTop3Articles($conn, "Kultura");
+$category_query = 'SELECT * FROM kategorije';
+$category_stmt = $conn->prepare($category_query);
+$category_stmt->execute();
+$categories = $category_stmt->fetchAll(PDO::FETCH_ASSOC);
+
 ?>
 
 <!DOCTYPE html>
@@ -32,50 +33,49 @@ $culture_news = fetchTop3Articles($conn, "Kultura");
 
     <!-- GLAVNI DIO -->
     <main>
-        <section class="news-section orange-details">
-            <h2 class="section-title">
-                <a href="kategorija.php?kategorija=Sport">Sport <span class="arrow">&gt;</span></a>
-            </h2>
-
-            <div class="news-auto-fill">
-                <?php foreach ($sport_news as $row): ?>
-                    <a href="clanak.php?id=<?= $row['id'] ?>">
-                        <article class="news-card">
-                            <div class="card-image">
-                                <img src="<?= IMAGES . htmlspecialchars($row['slika']) ?>" alt="<?= htmlspecialchars($row['naslov']) ?>">
-                            </div>
-                            <div class="card-content">
-                                <span class="card-category"><?= htmlspecialchars($row['sazetak']) ?></span>
-                                <h3 class="card-heading"><?= htmlspecialchars($row['naslov']) ?></h3>
-                            </div>
-                        </article>
+        <?php 
+        foreach($categories as $category):
+            $news_query = 'SELECT id, naslov, sazetak, slika 
+                FROM vijesti
+                WHERE idKategorije = :idKategorije AND arhiva = 0
+                ORDER BY datum DESC
+                LIMIT 3;';
+            $news_stmt = $conn->prepare($news_query);
+            $news_stmt->execute([':idKategorije' => $category['id']]);
+            $news = $news_stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            if(!empty($news)): 
+                $color_class = array_key_exists($category['naziv'], $category_colors) ? $category_colors[$category['naziv']] : 'default-details';
+            ?>
+            
+            <!-- svaka sekcija kategorije -->
+            <section class="news-section <?= $color_class ?>">
+                <h2 class="section-title">
+                    <a href="kategorija.php?id=<?= $category['id'] ?>">
+                        <?= htmlspecialchars($category['naziv']) ?><span class="arrow"> &gt;</span>
                     </a>
-                <?php endforeach; ?>
-            </div>
-        </section>
+                </h2>
+                
+                <!-- svaka vijest iz kategorije -->
+                <div class="news-auto-fill">
+                    <?php foreach ($news as $row): ?>
+                        <a href="clanak.php?id=<?= $row['id'] ?>">
+                            <article class="news-card">
+                                <div class="card-image">
+                                    <img src="<?= IMAGES . htmlspecialchars($row['slika']) ?>" alt="<?= htmlspecialchars($row['naslov']) ?>">
+                                </div>
+                                <div class="card-content">
+                                    <span class="card-category"><?= htmlspecialchars($row['sazetak']) ?></span>
+                                    <h3 class="card-heading"><?= htmlspecialchars($row['naslov']) ?></h3>
+                                </div>
+                            </article>
+                        </a>
+                    <?php endforeach; ?>
+                </div>
+            </section>
 
-        <section class="news-section red-details">
-            <h2 class="section-title">
-                <a href="kategorija.php?kategorija=Kultura">Kultura <span class="arrow">&gt;</span></a>
-            </h2>
-
-            <div class="news-auto-fill">
-                <?php foreach ($culture_news as $row): ?>
-                    <a href="clanak.php?id=<?= $row['id'] ?>">
-                        <article class="news-card">
-                            <div class="card-image">
-                                <img src="<?= IMAGES . htmlspecialchars($row['slika']) ?>" alt="<?= htmlspecialchars($row['naslov']) ?>" loading="lazy">
-                            </div>
-                            <div class="card-content">
-                                <span class="card-category"><?= htmlspecialchars($row['sazetak']) ?></span>
-                                <h3 class="card-heading"><?= htmlspecialchars($row['naslov']) ?></h3>
-                            </div>
-                        </article>
-                    </a>
-                    
-                <?php endforeach; ?>
-            </div>
-        </section>
+            <?php endif; ?>
+        <?php endforeach; ?>
     </main>
 
     <!-- FOOTER -->

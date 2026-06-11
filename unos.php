@@ -1,5 +1,12 @@
 <?php
 require_once 'paths.php';
+require_once 'database_config/connect.php';
+
+$query = 'SELECT * FROM kategorije ORDER BY naziv';
+$stmt = $conn->prepare($query);
+$stmt->execute();
+$categories_list = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 ?>
 <!DOCTYPE html>
 <html lang="hr">
@@ -41,8 +48,11 @@ require_once 'paths.php';
                 <label for="category">Kategorija vijesti</label>
                 <select id="category" name="category" required>
                     <option value="" disabled selected>Odaberite kategoriju</option>
-                    <option value="Sport">Sport</option>
-                    <option value="Kultura">Kultura</option>
+                    <?php foreach($categories_list as $row): ?>
+                        <option value="<?= $row['id'] ?>">
+                            <?= htmlspecialchars($row['naziv']) ?>
+                        </option>
+                    <?php endforeach; ?>
                 </select>
             </div>
                 

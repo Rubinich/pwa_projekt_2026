@@ -2,23 +2,27 @@
 require_once 'paths.php';
 require_once 'database_config/connect.php';
 
-$category = isset($_GET['kategorija']) ? $_GET['kategorija'] : '';
-if($category === '') {
-    header('Location: index.php');
-    exit;
-}
+$category_id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
-$query = 'SELECT * FROM vijesti WHERE kategorija = :kategorija AND arhiva = 0 ORDER BY datum DESC';
-$pred_state = $conn->prepare($query);
-$pred_state->execute([':kategorija' => $category]);
-$news = $pred_state->fetchAll(PDO::FETCH_ASSOC);
+$category_query = 'SELECT naziv FROM kategorije WHERE id = :id;';
+$category_stmt = $conn->prepare($category_query);
+$category_stmt->execute([':id' => $category_id]);
+$category = $category_stmt->fetch(PDO::FETCH_ASSOC);
 
-if(empty($news)) {
-    header('Location: index.php');
-    exit;
-}
+$news_query = 'SELECT id, naslov, sazetak, slika
+    FROM vijesti
+    WHERE idKategorije = :idKategorije AND arhiva = 0
+    ORDER BY datum DESC';
+$news_stmt = $conn->prepare($news_query);
+$news_stmt->execute([':idKategorije' => $category_id]);
+$news = $news_stmt->fetchAll(PDO::FETCH_ASSOC);
 
-$section_accent = $category === 'Sport' ? 'orange-details' : 'red-details';
+$category_colors = [
+    'Sport' => 'orange-details',
+    'Kultura' => 'red-details'
+];
+$color_class = $category_colors[$category['naziv']] ?? 'default-details';
+
 ?>
 
 <!DOCTYPE html>
@@ -26,7 +30,7 @@ $section_accent = $category === 'Sport' ? 'orange-details' : 'red-details';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>B.Z. <?= $category ?></title>
+    <title>B.Z. <?= $category['naziv'] ?></title>
     <link rel="icon" href="<?= IMAGES ?>logo.svg" type="image/svg+xml">
     <link rel="stylesheet" href="<?= ASSETS ?>style.css">
 
@@ -40,9 +44,9 @@ $section_accent = $category === 'Sport' ? 'orange-details' : 'red-details';
 
     <!-- GLAVNI DIO -->
     <main>
-        <section class="news-section <?= $section_accent ?>">
+        <section class="news-section <?= $color_class ?>">
             <h2 class="section-title">
-                <a href="kategorija.php?kategorija="><?= $category ?> <span class="arrow">&gt;</span></a>
+                <a href="kategorija.php?id=<?= $category_id ?>"><?= htmlspecialchars($category['naziv']) ?> <span class="arrow">&gt;</span></a>
             </h2>
 
             <div class="news-auto-fill">
