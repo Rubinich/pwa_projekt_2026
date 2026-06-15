@@ -3,8 +3,7 @@ require_once 'paths.php';
 require_once 'database_config/connect.php';
 
 $query = 'SELECT * FROM kategorije ORDER BY naziv';
-$stmt = $conn->prepare($query);
-$stmt->execute();
+$stmt = $conn->query($query);
 $categories_list = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
@@ -48,11 +47,13 @@ $categories_list = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <label for="category">Kategorija vijesti</label>
                 <select id="category" name="category" required>
                     <option value="" disabled selected>Odaberite kategoriju</option>
+
                     <?php foreach($categories_list as $row): ?>
                         <option value="<?= $row['id'] ?>">
                             <?= htmlspecialchars($row['naziv']) ?>
                         </option>
                     <?php endforeach; ?>
+                    
                 </select>
             </div>
                 
