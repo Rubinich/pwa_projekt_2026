@@ -1,5 +1,6 @@
 :root{
     --clr-red: hsl(354, 89%, 46%);
+    --clr-darker-red: hsl(354, 89%, 36%);
     --clr-orange: hsl(27, 100%, 50%);
     --clr-dark-grey: hsl(0, 0%, 40%);
     --clr-darker-grey: hsl(0, 0%, 30%);
@@ -264,6 +265,55 @@ span{
                 line-height: 1.3;
             }
         }
+
+        .card-archive-status{
+            padding-inline: 0.5rem;
+        }
+
+        .admin-actions{
+            display: flex;
+            gap: 0.75rem;
+            padding: 0.5rem;
+            color: white;
+
+            & a{
+                display: inline-flex;
+                justify-content: center;
+                align-items: center;
+                color: var(--clr-pure-white);
+                font-weight: 600;
+                font-size: 1.5rem;
+                border-radius: 50%;
+                text-decoration: none;
+                width: 45px;
+                height: 45px;
+                transition: all 0.3s;
+            }
+            & > a:first-child{
+                background-color: var(--clr-blue);
+
+                &:hover{
+                    background-color: var(--clr-darker-blue);
+                }
+            }
+            & > a:nth-child(2){
+                background-color: var(--clr-red);
+
+                &:hover{
+                    background-color: var(--clr-darker-red);
+                }
+            }
+        }
+}
+
+.admin-card-wrapper {
+    .news-card:hover {
+        transform: none;
+
+        .card-image img {
+            transform: scale(1);
+        }
+    }
 }
 /* INDEX-PRIKAZ-VIJESTI - KRAJ */
 

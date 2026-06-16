@@ -164,12 +164,8 @@ $news = $conn->query($select_query)->fetchAll(PDO::FETCH_ASSOC);
                                     <img src="<?= IMAGES . htmlspecialchars($row['slika']) ?>" alt="<?= htmlspecialchars($row['naslov']) ?>">
                                 </div>
                                 <div class="card-content">
-                                    <span class="card-category <?= $row ?>">
-                                        <?= htmlspecialchars($row['kategorija_naziv']) ?>
-                                    </span>
-                                    <span class="card-date">
-                                        Datum: <?= date('d.m.Y.', strtotime($row['datum'])) ?>
-                                    </span>
+                                    <span class="card-category"><?= htmlspecialchars($row['kategorija_naziv']) ?></span>
+                                    <span class="card-date">Datum dodavanja: <?= date('d.m.Y.', strtotime($row['datum'])) ?></span>
                                     <h3 class="card-heading"><?= htmlspecialchars($row['naslov']) ?></h3>
                                 </div>
                                 <div class="card-archive-status">
@@ -179,14 +175,12 @@ $news = $conn->query($select_query)->fetchAll(PDO::FETCH_ASSOC);
                                     <?php else: ?>
                                         <span class="green">Ne</span>
                                     <?php endif; ?>
+                                </div> 
+                                <div class="admin-actions">
+                                    <a href="administracija.php?update=<?= $row['id'] ?>">&#9998;</a>
+                                    <a href="administracija.php?delete=<?= $row['id'] ?>">&#128465;</a>
                                 </div>
                             </article>
-
-                            <div class="admin-actions">
-                                <a href="administracija.php?update=<?= $row['id'] ?>">&#9998;</a>
-                                <a href="administracija.php?delete=<?= $row['id'] ?>">&#128465;</a>
-                            </div>
-
                         </div>
                     <?php endforeach; ?>
                 </div>
