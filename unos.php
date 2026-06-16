@@ -3,8 +3,7 @@ require_once 'paths.php';
 require_once 'database_config/connect.php';
 
 $query = 'SELECT * FROM kategorije ORDER BY naziv';
-$stmt = $conn->query($query);
-$categories_list = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$categories_list = $conn->query($query)->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
 <!DOCTYPE html>

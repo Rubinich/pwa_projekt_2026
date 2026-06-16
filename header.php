@@ -1,9 +1,15 @@
 <?php
-$active_page = basename($_SERVER['SCRIPT_NAME']);
 
+if(session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+$active_page = basename($_SERVER['SCRIPT_NAME']);
 $query_header = 'SELECT * FROM kategorije ORDER BY naziv';
 $header_stmt = $conn->query($query_header);
 $category_header = $header_stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
 
 ?>
 
@@ -27,6 +33,12 @@ $category_header = $header_stmt->fetchAll(PDO::FETCH_ASSOC);
 
             <li><a href="unos.php" class="<?= ($active_page == 'unos.php') ? 'active' : ''; ?>">Unos</a></li>
             <li><a href="administracija.php" class="<?= ($active_page == 'administracija.php') ? 'active' : ''; ?>">Administracija</a></li>
+
+            <?php if (isset($_SESSION['username'])): ?>
+                <li class="logout-item">
+                    <a href="odjava.php">Odjava</a>
+                </li>
+            <?php endif; ?>
         </ul>
     </nav>
 </header>
