@@ -111,7 +111,7 @@ if (isset($_POST['registracija'])) {
                     <button type="submit" name="registracija">Registrirajte se</button>
                 </div>
 
-                <p>Već imate otvoren račun? <a href="administracija.php">Prijavite se ovdje</a></p>
+                <p>Već imate otvoren račun? <a href="administracija.php" class="blue">Prijavite se ovdje</a></p>
             </form>
         </div>
     </main>

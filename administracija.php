@@ -210,32 +210,35 @@ if ($isAdmin) {
             <?php endif; ?>
         <!-- ako je obican korisnik -->
         <?php elseif (isset($_SESSION['username']) && $_SESSION['razina'] == 0): ?>
-            <div class="message-container">
+            <div class="regular-container">
                 <h2>Bok, <?= htmlspecialchars($_SESSION['ime']) . ' ' . htmlspecialchars($_SESSION['prezime']) ?></h2>
-                <p>Nemate dovoljna prava za pristup administracijskoj stranici.</p>
-                <a href="index.php">Povratak na početnu stranicu</a>
+                <p>Nemate prava za pristup administracijskoj stranici.</p>
+                <a href="index.php" class="blue">Povratak na početnu stranicu</a>
             </div>
         <!-- zadano stanje za prijavu u sustav -->
         <?php else: ?>
             <div class="login-container">
-                <h2>Prijava u sustav</h2>
                 <?php if (!empty($message)): ?>
-                    <div><?= $message ?></div>
+                    <p><?= $message ?></p>
                 <?php endif; ?>
                 <form action="administracija.php" method="POST">
+                    <h1>Prijava u sustav</h1>
                     <div class="form-field">
                         <label for="username">Korisničko ime:</label>
                         <input type="text" id="username" name="username" required>
                     </div>
+
                     <div class="form-field">
                         <label for="lozinka">Lozinka:</label>
                         <input type="password" id="lozinka" name="lozinka" required>
                     </div>
-                    <button type="submit" name="prijava">
-                        Prijava
-                    </button>
+                    
+                    <div class="form-buttons">
+                        <button type="submit" name="prijava">Prijava</button>
+                    </div>
+                    <p>Nemate otvoren račun? <a href="registracija.php" class="blue">Registrirajte se ovdje</a></p>
                 </form>
-                <p>Nemate otvoren račun? <a href="registracija.php">Registrirajte se ovdje</a></p>
+                
             </div>
         <?php endif; ?>
     </main>

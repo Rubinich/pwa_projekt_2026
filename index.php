@@ -44,7 +44,7 @@ $categories = $conn->query($category_query)->fetchAll(PDO::FETCH_ASSOC);
             $news = $news_stmt->fetchAll(PDO::FETCH_ASSOC);
             
             if(!empty($news)): 
-                $color_class = array_key_exists($category['naziv'], $category_colors) ?? 'default-details';
+                $color_class = array_key_exists($category['naziv'], $category_colors) ? $category_colors[$category['naziv']] : 'default-details';
             ?>
             
             <!-- svaka sekcija kategorije -->
