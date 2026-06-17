@@ -177,6 +177,8 @@ footer{
 .red-details{ --section-accent: var(--clr-red); }
 .grey-details{ --section-accent: var(--clr-darker-grey); }
 .default-details{ --section-accent: var(--clr-red); }
+.blue{ color: var(--clr-blue); }
+
 span{
     &.red{
         font-weight: bold;
@@ -460,3 +462,14 @@ form{
     }
 }
 /* CLANAK-PREGLED - KRAJ */
+
+.regular-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto;
+    padding: 1.5rem;
+    gap: 0.5rem;
+    background-color: var(--clr-pure-white);
+    max-width: 600px;
+}

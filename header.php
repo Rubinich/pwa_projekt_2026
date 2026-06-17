@@ -31,7 +31,10 @@ $category_header = $header_stmt->fetchAll(PDO::FETCH_ASSOC);
                 </li>
             <?php endforeach; ?>
 
-            <li><a href="unos.php" class="<?= ($active_page == 'unos.php') ? 'active' : ''; ?>">Unos</a></li>
+            <?php if (isset($_SESSION['username']) && isset($_SESSION['razina']) && $_SESSION['razina'] == 1): ?>
+                <li><a href="unos.php" class="<?= ($active_page == 'unos.php') ? 'active' : ''; ?>">Unos</a></li>
+            <?php endif; ?>
+
             <li><a href="administracija.php" class="<?= ($active_page == 'administracija.php') ? 'active' : ''; ?>">Administracija</a></li>
 
             <?php if (isset($_SESSION['username'])): ?>
